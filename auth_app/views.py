@@ -3,8 +3,20 @@ from django.http.response import JsonResponse
 from rest_framework.views import APIView
 from .serializers import UserSerializer
 from rest_framework.response import Response
+from rest_framework.exceptions import AuthenticationFailed
 
 
+class LoginView(APIView):
+    def post(self,request):
+        email=request.data['email']
+        password=request.data['password']
+        user=User.objects.filter(email=email).first()
+        if user is None:
+            raise AuthenticationFailed("Authentication Error")
+        if not user.check_password(password):
+            raise AuthenticationFailed("Authentication Error")
+        return Response({"message":True})
+    
 class UserView(APIView):
     def post(self,request):
         serializer = UserSerializer(data=request.data)

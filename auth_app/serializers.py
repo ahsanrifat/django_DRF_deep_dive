@@ -9,9 +9,11 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self,validated_data):
         password=validated_data.pop('password',None)
         if password is not None:
-            instance=self.Meta.model(**validated_data)
-            instance.set_password(password)
-            instance.save()
-            return instance
-        return None
+            if len(password)>4:
+                instance=self.Meta.model(**validated_data)
+                instance.set_password(password)
+                instance.save()
+                return instance
+        raise serializers.ValidationError("Password requirements did not match")
+
     

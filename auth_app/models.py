@@ -13,3 +13,4 @@ class User(AbstractUser):
     objects = UserManager()
     class Meta:
         db_table = "auth_user"
+
