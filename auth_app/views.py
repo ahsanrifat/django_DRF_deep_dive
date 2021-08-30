@@ -1,12 +1,8 @@
 from auth_app.models import User
 from django.http.response import JsonResponse
-from auth_app.managers import UserManager
-from django.shortcuts import render
 from rest_framework.views import APIView
 from .serializers import UserSerializer
 from rest_framework.response import Response
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 
 
 class UserView(APIView):
