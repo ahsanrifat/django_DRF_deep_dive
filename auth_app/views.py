@@ -21,7 +21,7 @@ class LoginView(APIView):
             "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
             "iat": datetime.datetime.utcnow(),
         }
-        token = jwt.encode(payload, "secret", algorithm="HS256")
+        token = jwt.encode(payload, "23hhjbjh323676shdhs", algorithm="HS256")
         response = Response()
         response.set_cookie(key="token", value=token, httponly=True)
         response.data = {"token": token}
@@ -32,12 +32,20 @@ class LoginView(APIView):
         if not token:
             raise AuthenticationFailed("Unauthenticated token")
         try:
-            payload = jwt.decode(token, "secret", algorithms="HS256")
+            payload = jwt.decode(token, "23hhjbjh323676shdhs", algorithms="HS256")
         except Exception as e:
             raise AuthenticationFailed("Unauthenticated payload")
         user = User.objects.filter(id=payload["id"]).first()
         serializer = TokenUserSerializer(user)
         return Response(serializer.data)
+
+
+class LogoutView(APIView):
+    def get(self, request):
+        response = Response()
+        response.delete_cookie("token")
+        response.data = {"message": "success"}
+        return response
 
 
 class UserView(APIView):
