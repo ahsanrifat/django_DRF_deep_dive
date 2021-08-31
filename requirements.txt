@@ -3,7 +3,9 @@ black==21.8b0
 click==8.0.1
 colorama==0.4.4
 Django==3.2.6
+django-cors-headers==3.8.0
 djangorestframework==3.12.4
+djangorestframework-simplejwt==4.8.0
 mypy-extensions==0.4.3
 pathspec==0.9.0
 platformdirs==2.2.0
