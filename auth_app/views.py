@@ -4,7 +4,10 @@ from rest_framework.views import APIView
 from .serializers import UserSerializer, TokenUserSerializer
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
 import jwt, datetime
+from django.views.generic.list import ListView
 
 
 class LoginView(APIView):
@@ -49,6 +52,9 @@ class LogoutView(APIView):
 
 
 class UserView(APIView):
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (JWTAuthentication,)
+
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -74,3 +80,11 @@ class UserView(APIView):
             return Response({"message": True})
         except Exception as e:
             return Response({"message": False})
+
+
+class ListViewExample(ListView):
+    model = User
+    template_name = "auth_app/user_list.html"
+
+    def get_queryset(self):
+        return User.objects.filter(is_superuser=False)
