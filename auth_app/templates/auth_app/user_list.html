@@ -9,7 +9,7 @@
   <body>
     <ol>
       {%for user in user_list%}
-      <li>{{user.first_name}}->{{user.email}}</li>
+      <li>{{user.first_name}} {{user.last_name}} --- {{user.email}}</li>
       {%endfor%}
     </ol>
   </body>
